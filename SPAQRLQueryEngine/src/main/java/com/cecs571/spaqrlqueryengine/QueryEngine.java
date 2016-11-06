@@ -39,5 +39,19 @@ public class QueryEngine {
         Query q = QueryFactory.create(query);
         // One execution (qe) of the query string
         QueryExecution qe = QueryExecutionFactory.create(q, model);
+        // to count the number of retrieved triples
+        int i = 0;
+        //  Create a resultSet to store all the retrieved triples then
+        //  iterate through the @resultSet.
+        ResultSet resultSet = qe.execSelect();
+        while (resultSet.hasNext()) {
+            QuerySolution sol = resultSet.nextSolution();
+            String x = sol.get("x").toString();
+            String y = sol.get("y").toString();
+            System.out.println(x + " - " + y);
+            i++;
+        }
+        qe.close();
+        System.out.println("Count = " + i);
     }
 }
