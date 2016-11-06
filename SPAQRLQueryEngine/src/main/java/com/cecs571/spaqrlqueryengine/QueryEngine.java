@@ -17,5 +17,7 @@ public class QueryEngine {
         } catch (URISyntaxException ex) {
             Logger.getLogger(QueryEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // create a model for the dataset
+        Model model = FileManager.get().loadModel(uri.toString());
     }
 }
