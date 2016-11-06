@@ -8,3 +8,7 @@ import java.util.logging.Logger;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.util.FileManager;
+public class QueryEngine {
+    public static void main(String[] args) {
+    }
+}
