@@ -19,5 +19,21 @@ public class QueryEngine {
         }
         // create a model for the dataset
         Model model = FileManager.get().loadModel(uri.toString());
+        // query string
+        String query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
+                + "PREFIX socrata: <http://www.socrata.com/rdf/terms#> "
+                + "PREFIX dcat: <http://www.w3.org/ns/dcat#> "
+                + "PREFIX ods: <http://open-data-standards.github.com/2012/01/open-data-standards#> "
+                + "PREFIX dcterm: <http://purl.org/dc/terms/> "
+                + "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> "
+                + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+                + "PREFIX foaf: <http://xmlns.com/foaf/0.1/> "
+                + "PREFIX dsbase: <http://data.cityofchicago.org/resource/> "
+                + "PREFIX ds: <http://data.cityofchicago.org/resource/crimes/> "
+                + "PREFIX usps: <http://www.w3.org/2000/10/swap/pim/usps#> "
+                + "SELECT * WHERE {"
+                + " ?x socrata:rowID ?y ."
+                + "}";
     }
 }
