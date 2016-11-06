@@ -35,5 +35,9 @@ public class QueryEngine {
                 + "SELECT * WHERE {"
                 + " ?x socrata:rowID ?y ."
                 + "}";
+        // Create an application query using its factory method and the query string
+        Query q = QueryFactory.create(query);
+        // One execution (qe) of the query string
+        QueryExecution qe = QueryExecutionFactory.create(q, model);
     }
 }
