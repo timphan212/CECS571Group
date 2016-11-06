@@ -8,8 +8,11 @@ import java.util.logging.Logger;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.util.FileManager;
+
 public class QueryEngine {
+
     public static void main(String[] args) {
+
         // location of the rdf dataset
         URI uri = null;
         try {
@@ -17,8 +20,10 @@ public class QueryEngine {
         } catch (URISyntaxException ex) {
             Logger.getLogger(QueryEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         // create a model for the dataset
         Model model = FileManager.get().loadModel(uri.toString());
+
         // query string
         String query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
@@ -35,12 +40,16 @@ public class QueryEngine {
                 + "SELECT * WHERE {"
                 + " ?x socrata:rowID ?y ."
                 + "}";
+
         // Create an application query using its factory method and the query string
         Query q = QueryFactory.create(query);
+
         // One execution (qe) of the query string
         QueryExecution qe = QueryExecutionFactory.create(q, model);
+
         // to count the number of retrieved triples
         int i = 0;
+
         //  Create a resultSet to store all the retrieved triples then
         //  iterate through the @resultSet.
         ResultSet resultSet = qe.execSelect();
@@ -52,6 +61,8 @@ public class QueryEngine {
             i++;
         }
         qe.close();
+
         System.out.println("Count = " + i);
     }
+
 }
