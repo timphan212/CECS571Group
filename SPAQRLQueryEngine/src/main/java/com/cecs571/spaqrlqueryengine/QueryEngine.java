@@ -12,10 +12,3 @@ public class QueryEngine {
     public static void main(String[] args) {
     }
 }
-        // location of the rdf dataset
-        URI uri = null;
-        try {
-            uri = new URI(Paths.get("").toAbsolutePath().toUri().toString() + "/res/rows.rdf");
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(QueryEngine.class.getName()).log(Level.SEVERE, null, ex);
-        }
