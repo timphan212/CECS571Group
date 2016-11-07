@@ -17,6 +17,18 @@
             <artifactId>apache-jena-libs</artifactId>
             <type>pom</type>
             <version>3.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.21</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>
