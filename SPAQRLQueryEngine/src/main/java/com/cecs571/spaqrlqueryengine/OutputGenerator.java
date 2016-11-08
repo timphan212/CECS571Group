@@ -18,6 +18,10 @@ public class OutputGenerator {
         this.fileName = fileName;
         setFileURI();
     }
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+        setFileURI();
+    }
     private void setFileURI() {
         if (this.fileName.contains(".")) {
             this.fileURI = QueryEngine.currentWorkingPath + "/" + fileName;
