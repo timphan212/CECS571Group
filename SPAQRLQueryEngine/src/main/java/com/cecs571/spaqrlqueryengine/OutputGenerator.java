@@ -1,4 +1,5 @@
 package com.cecs571.spaqrlqueryengine;
+
 import com.webfirmframework.wffweb.tag.html.tables.Table;
 import java.awt.Desktop;
 import java.io.File;
@@ -11,17 +12,40 @@ import java.util.logging.Logger;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 public class OutputGenerator {
+
     private String fileName;
     private String fileURI;
     private HTMLFactory html;
+
+    /**
+     * Output generator for the SPARQL resultset
+     *
+     * @param fileName name of the output file
+     */
     public OutputGenerator(String fileName) {
         this.fileName = fileName;
         setFileURI();
     }
+
+    /**
+     * Define the output file name.
+     *
+     * @param fileName name of the output file.
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
         setFileURI();
     }
+
+    /**
+     * Write the values for variables retrieved from the SPQRQL result set into
+     * the file.
+     *
+     * @param resultSet result from a SPARQL query execution instance.
+     * @param queryVars variables to be retrieved from the result set and
+     * written to the file.
+     *
+     */
     public void writeToFile(ResultSet resultSet, String[] queryVars) {
         generateHTML(resultSet, queryVars);
         try (OutputStreamWriter fileWriter = new OutputStreamWriter(
@@ -31,6 +55,13 @@ public class OutputGenerator {
             Logger.getLogger(OutputGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Opens the file after it is written by this instance.
+     *
+     * @throws FileNotFoundException if name of the output file is 'null' or a
+     * blank string.
+     */
     public void openFileInDefaultApp() {
         try {
             if (fileName == null || fileName.equals("")) {
@@ -42,11 +73,26 @@ public class OutputGenerator {
             Logger.getLogger(OutputGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Create an HTML file containing data from the resultset.
+     *
+     * @param resultSet result from a SPARQL query execution instance.
+     * @param queryVars variables to be retrieved from the result set and
+     * written to the file.
+     */
     private void generateHTML(ResultSet resultSet, String[] queryVars) {
+        // init HTML file
         html = new HTMLFactory();
+
+        // add table
         Table table = html.addTable();
+
+        // populate header
         int i = 0, numOfVars = queryVars.length;
         html.addHeader(table, queryVars);
+
+        // populate table rows
         String[] row = new String[numOfVars];
         while (resultSet.hasNext()) {
             QuerySolution sol = resultSet.nextSolution();
@@ -57,6 +103,10 @@ public class OutputGenerator {
             html.addRow(table, row);
         }
     }
+
+    /**
+     * Generate the URI for the output file based on the file name.
+     */
     private void setFileURI() {
         if (this.fileName.contains(".")) {
             this.fileURI = QueryEngine.currentWorkingPath + "/" + fileName;
@@ -64,4 +114,5 @@ public class OutputGenerator {
             this.fileURI = QueryEngine.currentWorkingPath + "/" + fileName + OutputFormat.HTML;
         }
     }
+
 }
