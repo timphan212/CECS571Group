@@ -22,6 +22,30 @@ public class OutputGenerator {
         this.fileName = fileName;
         setFileURI();
     }
+    public void writeToFile(ResultSet resultSet, String[] queryVars) {
+        generateHTML(resultSet, queryVars);
+        try (OutputStreamWriter fileWriter = new OutputStreamWriter(
+                new FileOutputStream(new File(fileURI)))) {
+            fileWriter.write(html.toHtmlString());
+        } catch (IOException ex) {
+            Logger.getLogger(OutputGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void generateHTML(ResultSet resultSet, String[] queryVars) {
+        html = new HTMLFactory();
+        Table table = html.addTable();
+        int i = 0, numOfVars = queryVars.length;
+        html.addHeader(table, queryVars);
+        String[] row = new String[numOfVars];
+        while (resultSet.hasNext()) {
+            QuerySolution sol = resultSet.nextSolution();
+            for (String var : queryVars) {
+                row[i] = sol.get(var).toString();
+                i = (i + 1) % numOfVars;
+            }
+            html.addRow(table, row);
+        }
+    }
     private void setFileURI() {
         if (this.fileName.contains(".")) {
             this.fileURI = QueryEngine.currentWorkingPath + "/" + fileName;
