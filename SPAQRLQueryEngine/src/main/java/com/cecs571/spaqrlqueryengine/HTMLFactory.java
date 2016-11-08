@@ -44,4 +44,7 @@ public class HTMLFactory {
             }
         };
     }
+    public String toHtmlString() {
+        return html.toHtmlString();
+    }
 }
