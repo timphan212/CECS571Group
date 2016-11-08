@@ -15,4 +15,7 @@ public class HTMLFactory {
         html.setPrependDocType(true);
         body = new Body(html);
     }
+    public Table addTable() {
+        return new Table(body);
+    }
 }
