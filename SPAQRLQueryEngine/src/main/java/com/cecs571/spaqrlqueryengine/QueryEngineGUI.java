@@ -5,9 +5,6 @@
  */
 package com.cecs571.spaqrlqueryengine;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.apache.jena.rdf.model.Model;
@@ -110,9 +107,10 @@ public class QueryEngineGUI extends javax.swing.JFrame {
 
     private void openFileOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileOptionActionPerformed
         if (rdfFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            this.queryEngine = new QueryEngine();
             String currentDir = rdfFileChooser.getSelectedFile()
                     .toString();
-            model = QueryEngine.loadModel(currentDir);
+            this.model = queryEngine.loadModel(currentDir);
             JOptionPane.showMessageDialog(this, "Successfully opened "
                     + rdfFileChooser.getSelectedFile().getName(), "File Opened",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -120,7 +118,7 @@ public class QueryEngineGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_openFileOptionActionPerformed
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        QueryEngine.executeQuery(queryTextArea.getText(), this.model);
+        queryEngine.executeQuery(queryTextArea.getText(), this.model);
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
@@ -153,16 +151,15 @@ public class QueryEngineGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(QueryEngineGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new QueryEngineGUI().setVisible(true);
-            }
-        });
+        
+        new QueryEngineGUI().setVisible(true);
     }
-    
+
+    // Custom variables:
     private Model model;
+    private QueryEngine queryEngine;
+
+    // Variables for the GUI:
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu fileMenuBar;
     private javax.swing.JMenuBar jMenuBar1;
