@@ -18,4 +18,30 @@ public class HTMLFactory {
     public Table addTable() {
         return new Table(body);
     }
+    public void addHeader(Table table, String[] row) {
+        new Tr(table) {
+            {
+                for (String var : row) {
+                    new Th(this) {
+                        {
+                            new NoTag(this, var);
+                        }
+                    };
+                }
+            }
+        };
+    }
+    public void addRow(Table table, String[] row) {
+        new Tr(table) {
+            {
+                for (String var : row) {
+                    new Td(this) {
+                        {
+                            new NoTag(this, var);
+                        }
+                    };
+                }
+            }
+        };
+    }
 }
