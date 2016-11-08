@@ -1,21 +1,19 @@
 package com.cecs571.spaqrlqueryengine;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.util.FileManager;
 
 public class QueryEngine {
 
-    private String currentWorkingPath;
-
-    /**
-     * Class to process SPARQL queries
-     */
-    public QueryEngine() {
-        // initialize the location for the project
-        currentWorkingPath = Paths.get("").toAbsolutePath().toString();
-    }
+    
 
     /**
      * Load the model from the rdf located at the file path
@@ -24,7 +22,13 @@ public class QueryEngine {
      * @return a model object
      */
     public Model loadModel(String path) {
-        return FileManager.get().loadModel(path);
+        URI uri = null;
+        try {
+            uri = new URI(new File(path).toURI().toString());
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(QueryEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return FileManager.get().loadModel(uri.toString());
     }
 
     /**
@@ -37,20 +41,18 @@ public class QueryEngine {
         Query q = QueryFactory.create(query);
         QueryExecution qe = QueryExecutionFactory.create(q, model);
         ResultSet resultSet = qe.execSelect();
-        
-        // Generate output file
-        
-        
+
+        // List the projection variables
+        List<String> queryVars = q.getResultVars();
+
+        // generate an output file for the resultset
+        OutputGenerator outputGen = new OutputGenerator("result");
+        outputGen.writeToFile(resultSet, queryVars.toArray(new String[queryVars.size()]));
+
+        // open last generated output file
+        outputGen.openFileInDefaultApp();
+
         // close query execution
         qe.close();
-    }
-
-    /**
-     * Get the project's location
-     *
-     * @return
-     */
-    public String getCurrentWorkingPath() {
-        return currentWorkingPath;
     }
 }

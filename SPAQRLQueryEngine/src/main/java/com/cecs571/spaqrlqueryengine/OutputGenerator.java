@@ -7,10 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+
 public class OutputGenerator {
 
     private String fileName;
@@ -58,9 +60,6 @@ public class OutputGenerator {
 
     /**
      * Opens the file after it is written by this instance.
-     *
-     * @throws FileNotFoundException if name of the output file is 'null' or a
-     * blank string.
      */
     public void openFileInDefaultApp() {
         try {
@@ -109,10 +108,9 @@ public class OutputGenerator {
      */
     private void setFileURI() {
         if (this.fileName.contains(".")) {
-            this.fileURI = QueryEngine.currentWorkingPath + "/" + fileName;
+            this.fileURI = Paths.get("").toAbsolutePath().toString() + "/" + fileName;
         } else {
-            this.fileURI = QueryEngine.currentWorkingPath + "/" + fileName + OutputFormat.HTML;
+            this.fileURI = Paths.get("").toAbsolutePath().toString() + "/" + fileName + OutputFormat.HTML;
         }
     }
-
 }
