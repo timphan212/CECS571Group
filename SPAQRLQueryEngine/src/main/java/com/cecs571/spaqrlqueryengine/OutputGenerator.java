@@ -31,6 +31,17 @@ public class OutputGenerator {
             Logger.getLogger(OutputGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void openFileInDefaultApp() {
+        try {
+            if (fileName == null || fileName.equals("")) {
+                throw new FileNotFoundException("Define file name with 'setFileName' method: ");
+            }
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(new File(fileURI));
+        } catch (IOException ex) {
+            Logger.getLogger(OutputGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void generateHTML(ResultSet resultSet, String[] queryVars) {
         html = new HTMLFactory();
         Table table = html.addTable();
