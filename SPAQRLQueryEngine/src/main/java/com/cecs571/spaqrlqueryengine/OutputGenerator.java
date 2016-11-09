@@ -96,11 +96,21 @@ public class OutputGenerator {
         while (resultSet.hasNext()) {
             QuerySolution sol = resultSet.nextSolution();
             for (String var : queryVars) {
-                row[i] = sol.get(var).toString();
+                row[i] = removeType(sol.get(var).toString());
+                System.out.println(row[i]);
                 i = (i + 1) % numOfVars;
             }
             html.addRow(table, row);
         }
+    }
+
+    /**
+     * Remove the type from the query results
+     * @param value
+     * @return 
+     */
+    public String removeType(String value) {
+        return value.split("\\^")[0];
     }
 
     /**
