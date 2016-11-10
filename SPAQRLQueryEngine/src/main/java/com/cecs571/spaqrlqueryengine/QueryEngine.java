@@ -3,7 +3,7 @@ package com.cecs571.spaqrlqueryengine;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,16 +18,18 @@ public class QueryEngine {
     /**
      * Load the model from the rdf located at the file path
      *
-     * @param path the file path
+     * @param rdfFile the file to load the model for
      * @return a model object
      */
-    public Model loadModel(String path) {
+    public Model loadModel(File rdfFile) {
         URI uri = null;
+        
         try {
-            uri = new URI(new File(path).toURI().toString());
+            uri = new URI(rdfFile.toURI().toString());
         } catch (URISyntaxException ex) {
             Logger.getLogger(QueryEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return FileManager.get().loadModel(uri.toString());
     }
 
@@ -37,9 +39,9 @@ public class QueryEngine {
      * @param query the SPARQL query to execute
      * @param model the model created from the rdf
      */
-    public void executeQuery(String query, Model model) {
+    public void executeQuery(String query, ArrayList<Model> model) {
         Query q = QueryFactory.create(query);
-        QueryExecution qe = QueryExecutionFactory.create(q, model);
+        QueryExecution qe = QueryExecutionFactory.create(q, model.get(0));
         ResultSet resultSet = qe.execSelect();
 
         // List the projection variables

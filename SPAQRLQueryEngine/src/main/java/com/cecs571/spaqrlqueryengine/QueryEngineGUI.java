@@ -5,6 +5,8 @@
  */
 package com.cecs571.spaqrlqueryengine;
 
+import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.apache.jena.rdf.model.Model;
@@ -41,9 +43,11 @@ public class QueryEngineGUI extends javax.swing.JFrame {
         fileMenuBar = new javax.swing.JMenu();
         openFileOption = new javax.swing.JMenuItem();
 
+        rdfFileChooser.setMultiSelectionEnabled(true);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SPARQL Query Search System");
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         runButton.setText("Run Query");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -108,9 +112,13 @@ public class QueryEngineGUI extends javax.swing.JFrame {
     private void openFileOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileOptionActionPerformed
         if (rdfFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.queryEngine = new QueryEngine();
-            String currentDir = rdfFileChooser.getSelectedFile()
-                    .toString();
-            this.model = queryEngine.loadModel(currentDir);
+            this.modelList = new ArrayList<>();
+            File[] selectedFiles = rdfFileChooser.getSelectedFiles();
+            
+            for(File file : selectedFiles) {
+                this.modelList.add(queryEngine.loadModel(file));
+            }
+            
             JOptionPane.showMessageDialog(this, "Successfully opened "
                     + rdfFileChooser.getSelectedFile().getName(), "File Opened",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -118,7 +126,13 @@ public class QueryEngineGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_openFileOptionActionPerformed
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        queryEngine.executeQuery(queryTextArea.getText(), this.model);
+        if(this.modelList != null && this.modelList.size() > 0) {
+            queryEngine.executeQuery(queryTextArea.getText(), this.modelList);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Invalid files selected.",
+                    "Error!", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
@@ -156,9 +170,10 @@ public class QueryEngineGUI extends javax.swing.JFrame {
     }
 
     // Custom variables:
-    private Model model;
+    //private Model model;
     private QueryEngine queryEngine;
-
+    private ArrayList<Model> modelList;
+    
     // Variables for the GUI:
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu fileMenuBar;
