@@ -1,5 +1,6 @@
-PREFIX ds: <http://data.cityofchicago.org/resource/crimes/>
-SELECT *
+PREFIX ds: <http://data.ct.gov/resource/deaths/>
+SELECT ?y
 WHERE {
-?x ds:location ?y .
+?x ds:date ?y .
+FILTER (?y > "2015" && ?y < "2016")
 }
