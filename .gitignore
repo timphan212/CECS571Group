@@ -1,2 +1,4 @@
 /SPAQRLQueryEngine/target/
 *.html
+
+SPAQRLQueryEngine/src/main/java/com/cecs571/spaqrlqueryengine/Test.java
