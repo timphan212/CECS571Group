@@ -97,7 +97,6 @@ public class OutputGenerator {
             QuerySolution sol = resultSet.nextSolution();
             for (String var : queryVars) {
                 row[i] = removeType(sol.get(var).toString());
-                System.out.println(row[i]);
                 i = (i + 1) % numOfVars;
             }
             html.addRow(table, row);

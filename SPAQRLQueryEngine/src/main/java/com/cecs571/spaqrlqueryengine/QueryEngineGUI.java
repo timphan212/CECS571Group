@@ -114,13 +114,15 @@ public class QueryEngineGUI extends javax.swing.JFrame {
             this.queryEngine = new QueryEngine();
             this.modelList = new ArrayList<>();
             File[] selectedFiles = rdfFileChooser.getSelectedFiles();
+            String fileNames = "";
             
             for(File file : selectedFiles) {
                 this.modelList.add(queryEngine.loadModel(file));
+                fileNames += file.getName() + " ";
             }
             
             JOptionPane.showMessageDialog(this, "Successfully opened "
-                    + rdfFileChooser.getSelectedFile().getName(), "File Opened",
+                    + fileNames, "File Opened",
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_openFileOptionActionPerformed

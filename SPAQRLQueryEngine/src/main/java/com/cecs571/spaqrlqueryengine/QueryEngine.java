@@ -37,11 +37,23 @@ public class QueryEngine {
      * Execute the query passed through the parameters using the model
      *
      * @param query the SPARQL query to execute
-     * @param model the model created from the rdf
+     * @param models the list of model created from the selected files
      */
-    public void executeQuery(String query, ArrayList<Model> model) {
+    public void executeQuery(String query, ArrayList<Model> models) {
         Query q = QueryFactory.create(query);
-        QueryExecution qe = QueryExecutionFactory.create(q, model.get(0));
+        Model combinedModel = null;
+        
+        if(models.size() > 0) {
+            combinedModel = models.get(0);
+            
+            if(models.size() > 1) {
+                for (int i = 1; i < models.size(); i++) {
+                    combinedModel = combinedModel.add(models.get(i));
+                }
+            }
+        }
+        
+        QueryExecution qe = QueryExecutionFactory.create(q, combinedModel);
         ResultSet resultSet = qe.execSelect();
 
         // List the projection variables
