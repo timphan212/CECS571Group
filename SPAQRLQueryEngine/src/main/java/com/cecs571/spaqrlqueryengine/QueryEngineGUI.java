@@ -115,12 +115,12 @@ public class QueryEngineGUI extends javax.swing.JFrame {
             this.modelList = new ArrayList<>();
             File[] selectedFiles = rdfFileChooser.getSelectedFiles();
             String fileNames = "";
-            
-            for(File file : selectedFiles) {
+
+            for (File file : selectedFiles) {
                 this.modelList.add(queryEngine.loadModel(file));
                 fileNames += file.getName() + " ";
             }
-            
+
             JOptionPane.showMessageDialog(this, "Successfully opened "
                     + fileNames, "File Opened",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -128,10 +128,14 @@ public class QueryEngineGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_openFileOptionActionPerformed
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        if(this.modelList != null && this.modelList.size() > 0) {
-            queryEngine.executeQuery(queryTextArea.getText(), this.modelList);
-        }
-        else {
+        if (this.modelList != null && this.modelList.size() > 0) {
+            try {
+                queryEngine.executeQuery(queryTextArea.getText(), this.modelList);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Check your SPARQL query.",
+                        "Error!", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Invalid files selected.",
                     "Error!", JOptionPane.WARNING_MESSAGE);
         }
@@ -167,7 +171,7 @@ public class QueryEngineGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(QueryEngineGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         new QueryEngineGUI().setVisible(true);
     }
 
@@ -175,7 +179,7 @@ public class QueryEngineGUI extends javax.swing.JFrame {
     //private Model model;
     private QueryEngine queryEngine;
     private ArrayList<Model> modelList;
-    
+
     // Variables for the GUI:
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu fileMenuBar;
